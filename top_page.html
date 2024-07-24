@@ -3,110 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>3D Model with HTML Overlay</title>
     <style>
         body {
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            margin: 0;
+            overflow: hidden;
         }
-
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .container h1 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .container p {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .container a {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-
-        .container a:hover {
-            background-color: #0056b3;
-        }
-
-        .searchBox{
+        #container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1;
             width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
+        }
+        #searchBox, #engineSelect {
+            padding: 10px;
+            margin: 5px;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc;
         }
-
-        .searchBox :focus {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .engineSelect {
+        #webgl {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
-        }
-
-        .engineSelect:focus{
-            outline: none;
+            height: 100%;
+            z-index: 0;
         }
     </style>
 </head>
-
 <body>
-    <div>
-        <div id="container">
-            <input type="text" id="searchBox"  placeholder="Search...">
-            <select id="engineSelect">
-                <option value="https://www.google.com/search?q=">Google</option>
-                <option value="https://qiita.com/search?q=">Qiita</option>
-                <option value="https://www.youtube.com/results?search_query=">Youtube</option>
-                <option value="https://www.tiktok.com/search?q=">TikTok</option>
-                <option value="https://x.com/search?q=">X</option>
-    
-            </select>
-        </div>
-   
+    <div id="container">
+        <input type="text" id="searchBox" placeholder="Search...">
+        <select id="engineSelect">
+            <option value="https://www.google.com/search?q=">Google</option>
+            <option value="https://qiita.com/search?q=">Qiita</option>
+            <option value="https://www.youtube.com/results?search_query=">Youtube</option>
+            <option value="https://www.tiktok.com/search?q=">TikTok</option>
+            <option value="https://x.com/search?q=">X</option>
+        </select>
+    </div>
+    <div id="webgl"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS3DRenderer.js"></script>
     <script>
         // シーン、カメラ、レンダラーを作成
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-        // カメラの位置を設定
         camera.position.set(0, 0, 7);
 
+        const webglRenderer = new THREE.WebGLRenderer({ antialias: true });
+        webglRenderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('webgl').appendChild(webglRenderer.domElement);
+
+        const cssRenderer = new THREE.CSS3DRenderer();
+        cssRenderer.setSize(window.innerWidth, window.innerHeight);
+        cssRenderer.domElement.style.position = 'absolute';
+        cssRenderer.domElement.style.top = '0';
+        cssRenderer.domElement.style.left = '0';
+        document.body.appendChild(cssRenderer.domElement);
+
         // OrbitControlsを追加
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        const controls = new THREE.OrbitControls(camera, webglRenderer.domElement);
         controls.enablePan = false;  // パン操作を無効にする
         controls.enableZoom = false; // ズーム操作を無効にする
 
@@ -120,11 +80,9 @@
             // レンダリングループ
             function animate() {
                 requestAnimationFrame(animate);
-
-                // カメラコントロールを更新
                 controls.update();
-
-                renderer.render(scene, camera);
+                webglRenderer.render(scene, camera);
+                cssRenderer.render(scene, camera);
             }
             animate();
         }, undefined, function (error) {
@@ -134,17 +92,21 @@
         // 照明を追加
         const light = new THREE.AmbientLight(0xffffff); // 明るいホワイトライト
         scene.add(light);
-    </script>
-    <script>
-        document.getElementById('searchBox').addEventListener('keypress', function(e){
-            if(e.key === 'Enter'){
-                var searchEngine = document.getElementById('engineSelect').value;
-                var query = this.value;
-                window.open(searchEngine + query, '_self');
-            }
-        });
-    </script>
 
-</div>
-</body>
-</html>
+        // HTML要素を3D空間に追加
+        const div = document.createElement('div');
+        div.style.width = '200px';
+        div.style.height = '100px';
+        div.style.backgroundColor = 'rgba(255, 0, 0, 0.5)';
+        div.innerHTML = '<p style="color: white; text-align: center;">Hello World</p>';
+
+        const cssObject = new THREE.CSS3DObject(div);
+        cssObject.position.set(0, 1, 0); // 3D空間内の位置を設定
+        scene.add(cssObject);
+
+        document.getElementById('searchBox').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchEngine = document.getElementById('engineSelect').value;
+                const query = this.value;
+                window.open(searchEngine + query, '_self');
+           
