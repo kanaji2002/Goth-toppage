@@ -10,16 +10,6 @@
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
         }
-<<<<<<< HEAD
-
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-=======
         #container {
             position: absolute;
             top: 50%;
@@ -38,7 +28,6 @@
             border-radius: 5px;
             border: 1px solid #ccc;
             font-size: 20px;
->>>>>>> 0777320752e817ea535ace2e2ac3e494e52dee3e
         }
 
         .container h1 {
@@ -154,14 +143,6 @@
         // 照明を追加
         const light = new THREE.AmbientLight(0xffffff); // 明るいホワイトライト
         scene.add(light);
-<<<<<<< HEAD
-    </script>
-    <script>
-        document.getElementById('searchBox').addEventListener('keypress', function(e){
-            if(e.key === 'Enter'){
-                var searchEngine = document.getElementById('engineSelect').value;
-                var query = this.value;
-=======
 
         // より明るいライトに変更
         const brightLight = new THREE.AmbientLight(0xffffff, 2); // より明るいホワイトライト
@@ -182,7 +163,6 @@
             if (e.key === 'Enter') {
                 const searchEngine = document.getElementById('engineSelect').value;
                 const query = this.value;
->>>>>>> 0777320752e817ea535ace2e2ac3e494e52dee3e
                 window.open(searchEngine + query, '_self');
             }
         });
