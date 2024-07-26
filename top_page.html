@@ -82,7 +82,19 @@
         .engineSelect:focus{
             outline: none;
         }
+
+        .button_css{
+            display: inline-block;
+            padding: 20px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 0px;
+        }
     </style>
+
+    
 </head>
 
 <body>
@@ -96,6 +108,7 @@
             <option value="https://x.com/search?q=">X</option>
             <option value="https://scholar.google.co.jp/scholar?hl=ja&as_sdt=0%2C5&q=">Google Scholar</option>
         </select>
+        <button class="button_css" id="search_button" type="button">検索</button>
     </div>
     <div id="webgl"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -165,6 +178,14 @@
                 const query = this.value;
                 window.open(searchEngine + query, '_self');
             }
+        });
+
+
+        document.getElementById('search_button').addEventListener('click', function(e) {
+                const query = document.getElementById('searchBox').value;
+                const searchEngine = document.getElementById('engineSelect').value;
+                window.open(searchEngine + query, '_self');
+            
         });
 
         // マウスイベントリスナーを追加
