@@ -248,7 +248,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
         document.body.appendChild(renderer.domElement);
 
         // カメラの位置を設定
-        camera.position.set(0, 0, 7);
+        camera.position.set(4, 3, -20);
 
         // OrbitControlsを追加
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -261,7 +261,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
         loader.load('bed_kannsei.glb', function (gltf) {
             const model = gltf.scene;
             scene.add(model);
-            model.position.set(0, 0, 0);
+            model.position.set(1, 1, 2);
 
             // レンダリングループ
             function animate() {
@@ -281,19 +281,19 @@ body { margin: 0; font-family: Arial, sans-serif; }
         const light = new THREE.AmbientLight(0xffffff); // 明るいホワイトライト
         scene.add(light);
 
-        // より明るいライトに変更
-        const brightLight = new THREE.AmbientLight(0xffff22, 2); // より明るいホワイトライト
-        scene.add(brightLight);
+        // // より明るいライトに変更
+        // const brightLight = new THREE.AmbientLight(0xffff22, 2); // より明るいホワイトライト
+        // scene.add(brightLight);
 
-        // HTML要素を3D空間に追加
-        const div = document.createElement('div');
-        div.style.width = '200px';
-        div.style.height = '100px';
-        div.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
-        div.innerHTML = '<p style="color: white; text-align: center;">Hello World</p>';
+        // // HTML要素を3D空間に追加
+        // const div = document.createElement('div');
+        // div.style.width = '200px';
+        // div.style.height = '100px';
+        // div.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+        // div.innerHTML = '<p style="color: white; text-align: center;">Hello World</p>';
 
         const cssObject = new THREE.CSS3DObject(div);
-        cssObject.position.set(0, 1, 0); // 3D空間内の位置を設定
+        cssObject.position.set(0, 1, -1        ); // 3D空間内の位置を設定
         scene.add(cssObject);
 
         document.getElementById('searchBox').addEventListener('keypress', function(e) {

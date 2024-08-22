@@ -16,7 +16,10 @@
         // シーン、カメラ、レンダラーを作成
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        
+        // 高解像度でレンダリング
+        renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
@@ -26,11 +29,11 @@
         // OrbitControlsを追加
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enablePan = false;  // パン操作を無効にする
-        controls.enableZoom = false; // ズーム操作を無効にする
+        controls.enableZoom = true;  // ズーム操作を有効にする
 
         // GLTFローダーを使用してモデルを読み込む
         const loader = new THREE.GLTFLoader();
-        loader.load('desk.glb', function (gltf) {
+        loader.load('bed_kannsei.glb', function (gltf) {
             const model = gltf.scene;
             scene.add(model);
             model.position.set(0, 0, 0);
@@ -50,8 +53,16 @@
         });
 
         // 照明を追加
-        const light = new THREE.AmbientLight(0xffffff); // 明るいホワイトライト
-        scene.add(light);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // 弱めのアンビエントライト
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // 強めのディレクショナルライト
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+        pointLight.position.set(-5, -5, 5);
+        scene.add(pointLight);
     </script>
 </body>
 </html>
