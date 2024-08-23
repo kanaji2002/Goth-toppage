@@ -267,7 +267,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
         // GLTFローダーを使用してモデルを読み込む
         const loader = new THREE.GLTFLoader();
         //desk.glb -> bed_kannsei.glb
-        loader.load('../parts/bed_and_desk.glb', function (gltf) {
+        loader.load('bed_and_desk.glb', function (gltf) {
             const model = gltf.scene;
             scene.add(model);
             model.position.set(0, -2, 3);
