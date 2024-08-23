@@ -247,13 +247,22 @@ body { margin: 0; font-family: Arial, sans-serif; }
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        // カメラの位置を設定
-        camera.position.set(4, 3, -20);
+
+
+
+        
+        camera.position.set(6, 7, 10);
 
         // OrbitControlsを追加
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enablePan = false;  // パン操作を無効にする
-        controls.enableZoom = false; // ズーム操作を無効にする
+        controls.enableZoom = true; // ズーム操作を無効にする
+
+
+                // 高解像度でレンダリング
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
         // GLTFローダーを使用してモデルを読み込む
         const loader = new THREE.GLTFLoader();
@@ -261,7 +270,8 @@ body { margin: 0; font-family: Arial, sans-serif; }
         loader.load('bed_kannsei_add_mesh.glb', function (gltf) {
             const model = gltf.scene;
             scene.add(model);
-            model.position.set(1, 1, 2);
+            model.position.set(0, -2, 3);
+            model.scale.set(5, 5, 5);
 
             // レンダリングループ
             function animate() {
@@ -276,25 +286,31 @@ body { margin: 0; font-family: Arial, sans-serif; }
         }, undefined, function (error) {
             console.error(error);
         });
+      
 
         // 照明を追加
-        const light = new THREE.AmbientLight(0xffffff); // 明るいホワイトライト
-        scene.add(light);
+        const ambientLight = new THREE.AmbientLight(0xffffe0, 0.5); // 弱めのアンビエントライト
+        scene.add(ambientLight);
 
-        // // より明るいライトに変更
-        // const brightLight = new THREE.AmbientLight(0xffff22, 2); // より明るいホワイトライト
-        // scene.add(brightLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffe0, 0.5); // 強めのディレクショナルライト
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
 
-        // // HTML要素を3D空間に追加
-        // const div = document.createElement('div');
-        // div.style.width = '200px';
-        // div.style.height = '100px';
-        // div.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
-        // div.innerHTML = '<p style="color: white; text-align: center;">Hello World</p>';
-
+        const pointLight = new THREE.PointLight(0xffffe0, 1, 100);
+        pointLight.position.set(-5, -5, 5);
+        scene.add(pointLight);
         const cssObject = new THREE.CSS3DObject(div);
         cssObject.position.set(0, 1, -1        ); // 3D空間内の位置を設定
         scene.add(cssObject);
+
+
+
+
+
+
+
+
+
         
         renderer.setPixelRatio(window.devicePixelRatio);
 
