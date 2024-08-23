@@ -2,82 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Blender Model with OrbitControls</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
 </head>
 <body>
-    <script src="https://unpkg.com/three@0.147.0/build/three.min.js"></script>
-<script src="https://unpkg.com/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://unpkg.com/three@0.142.0/examples/js/loaders/GLTFLoader.js"></script>
-<script src="js/script.js"></script>
-        <canvas id="myCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+        // シーン、カメラ、レンダラーを作成
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        
+        // 高解像度でレンダリング
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
-        <script>
-            window.addEventListener("DOMContentLoaded", init);
-function init() {
-    // レンダラーを作成
-    const canvasElement = document.querySelector('#myCanvas');
-    const renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        canvas: canvasElement,
-    });
- 
-    // サイズ指定
-    const width = 745;
-    const height = 540;
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(width, height);
- 
-    // シーンを作成
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0x87B8C0 );
- 
-    // 環境光源を作成
-    const ambientLight = new THREE.AmbientLight(0xffffff);
-    ambientLight.intensity = 1; // Adjust the intensity value to decrease the brightness
-    scene.add(ambientLight);
-    // 平行光源を作成
-    const directionalLight = new THREE.DirectionalLight(0xffffff);
-    directionalLight.intensity = 1;
-    directionalLight.position.set(0, 4, 10); //x,y,zの位置を指定
-    scene.add(directionalLight);
- 
-    // カメラを作成
-    const camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
-    camera.position.set(0, 0, 1500);
- 
-    // カメラコントローラーを作成
-    const controls = new THREE.OrbitControls(camera, canvasElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.2;
- 
-    // 3Dモデルの読み込み
-    const loader = new THREE.GLTFLoader();
-	let model = null;
-    loader.load(
-//3Dモデルファイルのパスを指定
-        'bed_kannsei_add_mesh.glb',
-        function (glb) {
-            model = glb.scene;
-            model.name = "model_castle";
-            model.scale.set(80.0, 80.0, 80.0);
-            model.position.set(0,-200,0);
-            scene.add( glb.scene );
-        },
-        function (error) {
-            console.log(error);
-        }
-    );
- 
-    // リアルタイムレンダリング
-	tick();
-	function tick() {
-		controls.update();
-		renderer.render(scene, camera);
-		requestAnimationFrame(tick);
-	}
-}
-        </script>
-    
+        // カメラの位置を設定
+        camera.position.set(0, 0, 7);
+
+        // OrbitControlsを追加
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enablePan = false;  // パン操作を無効にする
+        controls.enableZoom = true;  // ズーム操作を有効にする
+
+        // GLTFローダーを使用してモデルを読み込む
+        const loader = new THREE.GLTFLoader();
+        loader.load('bed_kannsei.glb', function (gltf) {
+            const model = gltf.scene;
+            scene.add(model);
+            model.position.set(0, 0, 0);
+
+            // レンダリングループ
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // カメラコントロールを更新
+                controls.update();
+
+                renderer.render(scene, camera);
+            }
+            animate();
+        }, undefined, function (error) {
+            console.error(error);
+        });
+
+        // 照明を追加
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // 弱めのアンビエントライト
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // 強めのディレクショナルライト
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+        pointLight.position.set(-5, -5, 5);
+        scene.add(pointLight);
+    </script>
 </body>
 </html>
