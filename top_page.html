@@ -267,7 +267,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
         // GLTFローダーを使用してモデルを読み込む
         const loader = new THREE.GLTFLoader();
         //desk.glb -> bed_kannsei.glb
-        loader.load('bed_kannsei_add_mesh.glb', function (gltf) {
+        loader.load('../parts/bed_and_desk.glb', function (gltf) {
             const model = gltf.scene;
             scene.add(model);
             model.position.set(0, -2, 3);
@@ -286,15 +286,43 @@ body { margin: 0; font-family: Arial, sans-serif; }
         }, undefined, function (error) {
             console.error(error);
         });
+
+// 座標のテスト
+        const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+        const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const box = new THREE.Mesh(boxGeometry, boxMaterial);
+        box.position.set(5 , 18, 5);
+        scene.add(box);
       
 
         // 照明を追加
-        const ambientLight = new THREE.AmbientLight(0xffffe0, 0.5); // 弱めのアンビエントライト
-        scene.add(ambientLight);
+        //全体的に明るくする，全方位から均等に照明を当てる．
+        // const ambientLight = new THREE.AmbientLight(0xffffe0, 0.5); // 弱めのアンビエントライト
+        // scene.add(ambientLight);
 
-        const directionalLight = new THREE.DirectionalLight(0xffffe0, 0.5); // 強めのディレクショナルライト
-        directionalLight.position.set(5, 5, 5);
+        //一か所から照らす　太陽光
+        const directionalLight = new THREE.DirectionalLight(0xffffe0, 0.4); // 強めのディレクショナルライト
+        directionalLight.position.set(5, 18, 5);
         scene.add(directionalLight);
+
+        const hemisphereLight = new THREE.HemisphereLight(0xffffe0, 0x000000, 0.5)
+
+                       // 新しいライトを追加
+        const newLight = new THREE.PointLight(0xffffff, 0.8); // 明るさや色を適宜調整してください
+        newLight.position.set(directionalLight.position.x -2, directionalLight.position.z-3, directionalLight.position.y-20);
+        scene.add(newLight);
+        
+        // const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+        // const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        // const box = new THREE.Mesh(boxGeometry, boxMaterial);
+        // box.position.set(directionalLight.position.x +2 , directionalLight.position.z, directionalLight.position.y -30);
+        // scene.add(box);
+
+        // 矩形光源を作成
+        // new THREE.RectAreaLight(色, 光の強さ, 幅, 高さ)
+        // const light = new THREE.RectAreaLight(0xFFFFe0, 5.0, 2, 20);
+        // scene.add(light);
+
 
         const pointLight = new THREE.PointLight(0xffffe0, 1, 100);
         pointLight.position.set(-5, -5, 5);
