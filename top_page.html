@@ -460,7 +460,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
 
     <div id="message" style="display:none; color:blue;">ボタンがクリックされました！</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
     <script>
         // シーン、カメラ、レンダラーの作成
         // const scene = new THREE.Scene();
@@ -470,7 +470,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
         document.body.appendChild(renderer.domElement);
 
         // ライトの追加
-        // const light = new THREE.DirectionalLight(0xffffff, 1);
+        const light = new THREE.DirectionalLight(0xffffff, 1);
         light.position.set(1, 1, 1).normalize();
         scene.add(light);
 
@@ -542,6 +542,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
 
     <!-- ショートカットのスクリプト -->
     <script>
+        const div = document.createElement('div');
         const addShortcutButton = document.getElementById('button1');
         const dialog = document.getElementById('dialog');
         const cancelButton = document.getElementById('cancelButton');
