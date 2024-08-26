@@ -2,67 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Blender Model with OrbitControls</title>
-    <style>
-        body { margin: 0; }
-        canvas { display: block; }
-    </style>
+    <title>Test Page</title>
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script> <!-- QWebChannelのスクリプトをインポート -->
+    <script>
+        var channel;
+        window.onload = function() {
+            new QWebChannel(qt.webChannelTransport, function(ch) {
+                channel = ch;
+                window.handler = channel.objects.handler;
+            });
+            
+            // リンクのクリックイベントを設定
+            document.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); // デフォルトの動作を防止（ナビゲーション）
+                    handler.handleLinkClick(link.href); // Pythonのスロットを呼び出す
+                });
+            });
+        };
+    </script>
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script>
-        // シーン、カメラ、レンダラーを作成
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        
-        // 高解像度でレンダリング
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-        // カメラの位置を設定
-        camera.position.set(0, 0, 7);
-
-        // OrbitControlsを追加
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enablePan = false;  // パン操作を無効にする
-        controls.enableZoom = true;  // ズーム操作を有効にする
-
-        // GLTFローダーを使用してモデルを読み込む
-        const loader = new THREE.GLTFLoader();
-        loader.load('bed_kannsei.glb', function (gltf) {
-            const model = gltf.scene;
-            scene.add(model);
-            model.position.set(0, 0, 0);
-
-            // レンダリングループ
-            function animate() {
-                requestAnimationFrame(animate);
-
-                // カメラコントロールを更新
-                controls.update();
-
-                renderer.render(scene, camera);
-            }
-            animate();
-        }, undefined, function (error) {
-            console.error(error);
-        });
-
-        // 照明を追加
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // 弱めのアンビエントライト
-        scene.add(ambientLight);
-
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // 強めのディレクショナルライト
-        directionalLight.position.set(5, 5, 5);
-        scene.add(directionalLight);
-
-        const pointLight = new THREE.PointLight(0xffffff, 1, 100);
-        pointLight.position.set(-5, -5, 5);
-        scene.add(pointLight);
-    </script>
+    <a href="https://www.youtube.com/">Click me</a>
 </body>
 </html>
