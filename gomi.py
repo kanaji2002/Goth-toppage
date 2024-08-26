@@ -24,7 +24,7 @@ channel.registerObject("handler", handler)
 view.page().setWebChannel(channel)
 
 # HTMLファイルをロード
-view.setUrl(QUrl.fromLocalFile("three.html"))  # HTMLファイルへのパスを指定
+view.setUrl(QUrl.fromLocalFile("https://kanaji2002.github.io/Goth-toppage/three.html"))  # HTMLファイルへのパスを指定
 
 view.show()
 sys.exit(app.exec())
