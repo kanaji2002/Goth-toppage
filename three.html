@@ -145,7 +145,9 @@
         camera.position.set(6, 7, 10);
 
         // OrbitControlsを追加
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        // const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        const controls = new THREE.OrbitControls(camera, cssRenderer.domElement); // cssRenderer.domElementを使用
+
        // カメラの回転を有効にする（デフォルトで有効）
         controls.enableRotate = true;
 
