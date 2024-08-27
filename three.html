@@ -602,26 +602,26 @@ body { margin: 0; font-family: Arial, sans-serif; }
                 });
                 //ブラウザのみの対応
                 // window.open(url, '_blank');
-            });
+            // });
 
 
-            new QWebChannel(qt.webChannelTransport, function(channel) {
-            window.linkHandler = channel.objects.linkHandler;
+            // new QWebChannel(qt.webChannelTransport, function(channel) {
+            // window.linkHandler = channel.objects.linkHandler;
 
-            // // すべてのリンクにクリックイベントを設定する
-            function setLinkClickHandler() {
-                document.querySelectorAll('a').forEach(function(link) {
-                    link.addEventListener('click', function(event) {
-                        event.preventDefault();  // デフォルトのリンク動作をキャンセル
-                        window.linkHandler.handleLinkClick(link.href);  // Pythonのスロットを呼び出す
-                    });
-                });
-            }
+            // // // すべてのリンクにクリックイベントを設定する
+            // function setLinkClickHandler() {
+            //     document.querySelectorAll('a').forEach(function(link) {
+            //         link.addEventListener('click', function(event) {
+            //             event.preventDefault();  // デフォルトのリンク動作をキャンセル
+            //             window.linkHandler.handleLinkClick(link.href);  // Pythonのスロットを呼び出す
+            //         });
+            //     });
+            // }
 
-            // 初期ロード時に静的なリンクに対してイベントを設定
-            setLinkClickHandler();
+            // // 初期ロード時に静的なリンクに対してイベントを設定
+            // setLinkClickHandler();
 
-        });
+        // });
 
 
 
