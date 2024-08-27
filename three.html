@@ -161,7 +161,7 @@
 
         // GLTFローダーを使用してモデルを読み込む
         const loader = new THREE.GLTFLoader();
-        loader.load('bed_and_desk2.glb', function (gltf) {
+        loader.load('3d_parts/bed3.glb', function (gltf) {
             const model = gltf.scene;
             scene.add(model);
             model.position.set(0, -2, 3);
