@@ -28,6 +28,15 @@
             font-size: 18px;
             margin-bottom: 10px;
         }
+        .toggle-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
         .dialog-content {
             margin-bottom: 20px;
         }
@@ -137,8 +146,14 @@
 
         // OrbitControlsを追加
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enablePan = true;  // パン操作を無効にする
-        controls.enableZoom = true; // ズーム操作を無効にする
+       // カメラの回転を有効にする（デフォルトで有効）
+        controls.enableRotate = true;
+
+        // カメラのズームを有効にする（デフォルトで有効）
+        controls.enableZoom = true;
+
+        // カメラのパンを有効にする（デフォルトで有効）
+        controls.enablePan = true;
 
         renderer.setPixelRatio(window.devicePixelRatio);
 
@@ -204,7 +219,7 @@
             <label for="shortcutUrl">URL:</label>
             <input type="url" id="shortcutUrl" style="width: 100%;">
              <!-- トグルリストの追加 -->
-            <select id="positionSelect" >
+            <select class = "toggle-button" id="positionSelect" >
                 <option value="desk">机</option>
                 <option value="bed">ベッド</option>
                 <option value="floor">床</option>
@@ -271,7 +286,7 @@
                     // 選択された位置に基づいてショートカットの位置を設定
                     if (position === 'desk') {
                         console.log('deskに設置しました．');
-                        shortcut3DObject.position.set(1, 0, 1);
+                        shortcut3DObject.position.set(-4, 0, -4);
                     } else if (position === 'bed') {
                         shortcut3DObject.position.set(6, 6, 6);
                     } else if (position === 'floor') {
