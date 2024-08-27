@@ -257,6 +257,7 @@
 
                     const shortcut3DObject = new THREE.CSS3DObject(newShortcut);
                     shortcut3DObject.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
+                    shortcut3DObject.scale.set(0.2, 0.2, 0.2);
                     cssScene.add(shortcut3DObject);
 
                     newShortcut.addEventListener('click', (event) => {
