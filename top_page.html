@@ -260,11 +260,11 @@ body { margin: 0; font-family: Arial, sans-serif; }
     </script>
 
      <!-- qtwebchannel のscript-->
-     <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+     <!-- <script src="qrc:///qtwebchannel/qwebchannel.js"></script> -->
      
 
      <!-- 全てのリンクに対して，監視-->
-      <script type="text/javascript">
+      <!-- <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function() {
             new QWebChannel(qt.webChannelTransport, function(channel) {
                 window.linkHandler = channel.objects.linkHandler;
@@ -278,7 +278,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
                 });
             });
         });
-    </script>
+    </script> -->
 
 
 
@@ -624,8 +624,34 @@ body { margin: 0; font-family: Arial, sans-serif; }
     } catch (error) {
         return 'default-icon.png'; // エラーが発生した場合のデフォルトアイコン
     }
+
+
+
+
+
     }
+
+
+
+    
     </script>
+
+<script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        new QWebChannel(qt.webChannelTransport, function(channel) {
+            window.linkHandler = channel.objects.linkHandler;
+
+            // すべてのリンクにクリックイベントを設定する
+            document.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();  // デフォルトのリンク動作をキャンセル
+                    window.linkHandler.handleLinkClick(link.href);  // Pythonのスロットを呼び出す
+                });
+            });
+        });
+    });
+</script>
 
 
 </div>
