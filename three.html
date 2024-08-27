@@ -545,165 +545,101 @@ body { margin: 0; font-family: Arial, sans-serif; }
 
     </script>
 
-    <script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
-    <!-- ショートカットのスクリプト -->
-    <script>
-        
-        const addShortcutButton = document.getElementById('button1');
-        const dialog = document.getElementById('dialog');
-        const cancelButton = document.getElementById('cancelButton');
-        const addButton = document.getElementById('addButton');
-        const shortcutNameInput = document.getElementById('shortcutName');
-        const shortcutUrlInput = document.getElementById('shortcutUrl');
-
-        // ショートカット追加ボタンをクリックした時にダイアログを表示
-        addShortcutButton.addEventListener('click', () => {
-            dialog.classList.add('active');
-        });
-
-        // キャンセルボタンでダイアログを閉じる
-        cancelButton.addEventListener('click', () => {
-            dialog.classList.remove('active');
-        });
-
-        // 入力フィールドに値があるかどうかをチェックして、完了ボタンを有効化
-        shortcutNameInput.addEventListener('input', checkFormValidity);
-        shortcutUrlInput.addEventListener('input', checkFormValidity);
-
-        function checkFormValidity() {
-            if (shortcutNameInput.value && shortcutUrlInput.value) {
-                addButton.disabled = false;
-            } else {
-                addButton.disabled = true;
-            }
-        }
-
-        // 完了ボタンをクリックしてショートカットを作成
-        addButton.addEventListener('click', async () => {
-            const name = shortcutNameInput.value;
-            const url = shortcutUrlInput.value;
-
-            // ファビコンを取得する
-            const faviconUrl = await getFavicon(url);
-
-            // 新しいショートカットを作成して、ページに追加
-            const newShortcut = document.createElement('div');
-            newShortcut.className = 'button-overlay';
-            newShortcut.innerHTML = `
-                <div class="tile-icon" style="background-image: url('${faviconUrl}');"></div>
-                <div class="tile-title">${name}</div>
-            `;
-            newShortcut.addEventListener('click', () => {
-                
-             
-                        event.preventDefault();  // デフォルトのリンク動作をキャンセル
-                        window.linkHandler.handleLinkClick(link.href);  // Pythonのスロットを呼び出す
-                 
-                });
-                //ブラウザのみの対応
-                // window.open(url, '_blank');
-            // });
-
-
-            // new QWebChannel(qt.webChannelTransport, function(channel) {
-            // window.linkHandler = channel.objects.linkHandler;
-
-            // // // すべてのリンクにクリックイベントを設定する
-            // function setLinkClickHandler() {
-            //     document.querySelectorAll('a').forEach(function(link) {
-            //         link.addEventListener('click', function(event) {
-            //             event.preventDefault();  // デフォルトのリンク動作をキャンセル
-            //             window.linkHandler.handleLinkClick(link.href);  // Pythonのスロットを呼び出す
-            //         });
-            //     });
-            // }
-
-            // // 初期ロード時に静的なリンクに対してイベントを設定
-            // setLinkClickHandler();
-
-        // });
-
-
-
-
-
-
-                // 最後の button-overlay 要素を探し、その下に10px間隔で配置
-            const existingShortcuts = document.querySelectorAll('.button-overlay');
-            if (existingShortcuts.length > 0) {
-                const lastShortcut = existingShortcuts[existingShortcuts.length - 1];
-                const lastShortcutRect = lastShortcut.getBoundingClientRect();
-                newShortcut.style.position = 'absolute';
-                newShortcut.style.left = `${lastShortcutRect.right + 10}px`;
-                // newShortcut.style.bottom = `${lastShortcutRect.bottom}px`;
-            }
-
-            document.body.appendChild(newShortcut);
-
-            // ダイアログを閉じて、入力フィールドをクリア
-            dialog.classList.remove('active');
-            shortcutNameInput.value = '';
-            shortcutUrlInput.value = '';
-            addButton.disabled = true;
-        });
-
-        async function getFavicon(siteUrl) {
-    try {
-        const url = new URL(siteUrl);
-        const faviconUrl = `https://www.google.com/s2/favicons?domain=${url.hostname}`;
-        return faviconUrl; // 直接ファビコンURLを返す
-    } catch (error) {
-        return 'default-icon.png'; // エラーが発生した場合のデフォルトアイコン
-    }
-
-
-
-
-
-    }
-
-
-
-    
-    </script>
-
-
+<script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
         new QWebChannel(qt.webChannelTransport, function(channel) {
             window.linkHandler = channel.objects.linkHandler;
 
-            // すべてのリンクにクリックイベントを設定する
-            function setLinkClickHandler() {
-                document.querySelectorAll('a').forEach(function(link) {
-                    link.addEventListener('click', function(event) {
-                        event.preventDefault();  // デフォルトのリンク動作をキャンセル
-                        window.linkHandler.handleLinkClick(link.href);  // Pythonのスロットを呼び出す
-                    });
-                });
+            const addShortcutButton = document.getElementById('button1');
+            const dialog = document.getElementById('dialog');
+            const cancelButton = document.getElementById('cancelButton');
+            const addButton = document.getElementById('addButton');
+            const shortcutNameInput = document.getElementById('shortcutName');
+            const shortcutUrlInput = document.getElementById('shortcutUrl');
+
+            // ショートカット追加ボタンをクリックした時にダイアログを表示
+            addShortcutButton.addEventListener('click', () => {
+                dialog.classList.add('active');
+            });
+
+            // キャンセルボタンでダイアログを閉じる
+            cancelButton.addEventListener('click', () => {
+                dialog.classList.remove('active');
+            });
+
+            // 入力フィールドに値があるかどうかをチェックして、完了ボタンを有効化
+            shortcutNameInput.addEventListener('input', checkFormValidity);
+            shortcutUrlInput.addEventListener('input', checkFormValidity);
+
+            function checkFormValidity() {
+                if (shortcutNameInput.value && shortcutUrlInput.value) {
+                    addButton.disabled = false;
+                } else {
+                    addButton.disabled = true;
+                }
             }
 
-            // 初期ロード時に静的なリンクに対してイベントを設定
-            setLinkClickHandler();
+            // 完了ボタンをクリックしてショートカットを作成
+            addButton.addEventListener('click', async () => {
+                const name = shortcutNameInput.value;
+                const url = shortcutUrlInput.value;
 
-            // 動的に追加されたリンクにもクリックイベントを設定する関数
-            function addDynamicLink(url, text) {
-                const a = document.createElement('a');
-                a.href = url;
-                a.textContent = text;
-                document.body.appendChild(a);
-                // 新しいリンクにもイベントを追加
-                a.addEventListener('click', function(event) {
+                // ファビコンを取得する
+                const faviconUrl = await getFavicon(url);
+
+                // 新しいショートカットを作成して、ページに追加
+                const newShortcut = document.createElement('div');
+                newShortcut.className = 'button-overlay';
+                newShortcut.innerHTML = `
+                    <div class="tile-icon" style="background-image: url('${faviconUrl}');"></div>
+                    <div class="tile-title">${name}</div>
+                `;
+                newShortcut.setAttribute('data-url', url); // URL を data 属性として追加
+
+                // ショートカットのクリックイベント
+                newShortcut.addEventListener('click', (event) => {
                     event.preventDefault();  // デフォルトのリンク動作をキャンセル
-                    window.linkHandler.handleLinkClick(a.href);  // Pythonのスロットを呼び出す
+                    const url = newShortcut.getAttribute('data-url');  // URL を取得
+                    if (window.linkHandler && window.linkHandler.handleLinkClick) {
+                        window.linkHandler.handleLinkClick(url);  // Pythonのスロットを呼び出す
+                    } else {
+                        console.error("linkHandler or handleLinkClick is not defined.");
+                    }
                 });
-            }
 
-            // 例: 動的にリンクを追加
-            addDynamicLink('https://newsite.com', '動的リンク');
+                // ショートカットをページに追加
+                document.body.appendChild(newShortcut);
+
+                // 最後の button-overlay 要素を探し、その下に10px間隔で配置
+                const existingShortcuts = document.querySelectorAll('.button-overlay');
+                if (existingShortcuts.length > 0) {
+                    const lastShortcut = existingShortcuts[existingShortcuts.length - 1];
+                    const lastShortcutRect = lastShortcut.getBoundingClientRect();
+                    newShortcut.style.position = 'absolute';
+                    newShortcut.style.left = `${lastShortcutRect.right + 10}px`;
+                }
+
+                // ダイアログを閉じて、入力フィールドをクリア
+                dialog.classList.remove('active');
+                shortcutNameInput.value = '';
+                shortcutUrlInput.value = '';
+                addButton.disabled = true;
+            });
+
+            async function getFavicon(siteUrl) {
+                try {
+                    const url = new URL(siteUrl);
+                    const faviconUrl = `https://www.google.com/s2/favicons?domain=${url.hostname}`;
+                    return faviconUrl; // 直接ファビコンURLを返す
+                } catch (error) {
+                    return 'default-icon.png'; // エラーが発生した場合のデフォルトアイコン
+                }
+            }
         });
     });
 </script>
+
 
 
 </div>
