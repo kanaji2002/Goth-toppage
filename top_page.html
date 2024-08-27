@@ -602,7 +602,9 @@ body { margin: 0; font-family: Arial, sans-serif; }
                     event.preventDefault();  // デフォルトのリンク動作をキャンセル
                     const url = newShortcut.getAttribute('data-url');  // URL を取得
                     if (window.linkHandler && window.linkHandler.handleLinkClick) {
-                        window.linkHandler.handleLinkClick(url);  // Pythonのスロットを呼び出す
+                        window.linkHandler.handleLinkClick_url(url);  // Pythonのスロットを呼び出す
+                        window.linkHandler.handleLinkClick_name(name);  // Pythonのスロットを呼び出す
+ 
                     } else {
                         console.error("linkHandler or handleLinkClick is not defined.");
                     }
