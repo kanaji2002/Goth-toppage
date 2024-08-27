@@ -171,19 +171,22 @@
             console.error(error);
         });
 
+
         const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
         const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         const box = new THREE.Mesh(boxGeometry, boxMaterial);
         box.position.set(5 , 18, 5);
         scene.add(box);
 
-        const directionalLight = new THREE.DirectionalLight(0xffffe0, 0.4);
+        const directionalLight = new THREE.DirectionalLight(0xffffe0, 0.9);
         directionalLight.position.set(5, 18, 5);
         scene.add(directionalLight);
 
         const pointLight = new THREE.PointLight(0xffffe0, 1, 100);
         pointLight.position.set(-5, -5, 5);
         scene.add(pointLight);
+
+        
 
         function animate() {
             requestAnimationFrame(animate);
