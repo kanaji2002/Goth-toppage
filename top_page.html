@@ -644,6 +644,19 @@ body { margin: 0; font-family: Arial, sans-serif; }
     });
 </script>
 
+<script>
+    function addPinnedItem(title, url) {
+        const container = document.querySelector('.pin-container');
+        const item = document.createElement('div');
+        item.className = 'pin-item';
+        item.innerHTML = `<a href="${url}" target="_blank">${title}</a>`;
+        container.prepend(item);  // 上から追加
+    }
+
+    function loadPinnedItemsFromPython(pinnedItems) {
+        pinnedItems.forEach(item => addPinnedItem(item.title, item.url));
+    }
+</script>
 
 
 </div>
