@@ -596,6 +596,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
                     <div class="tile-title">${name}</div>
                 `;
                 newShortcut.setAttribute('data-url', url); // URL を data 属性として追加
+                newShortcut.setAttribute('data-name', name); // URL を data 属性として追加
 
                 // ショートカットのクリックイベント
                 newShortcut.addEventListener('click', (event) => {
