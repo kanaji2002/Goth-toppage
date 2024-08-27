@@ -190,6 +190,13 @@
         });
     </script>
 
+    <!-- トグルリストの追加 -->
+    <select id="positionSelect">
+        <option value="desk">机</option>
+        <option value="bed">ベッド</option>
+        <option value="floor">床</option>
+    </select>
+
     <div id="button1" class="button-overlay-defo">
         <div class="tile-title">ショートカットを追加</div>
     </div>
@@ -220,6 +227,7 @@
                 const addButton = document.getElementById('addButton');
                 const shortcutNameInput = document.getElementById('shortcutName');
                 const shortcutUrlInput = document.getElementById('shortcutUrl');
+                const positionSelect = document.getElementById('positionSelect'); // トグルリストを取得
 
                 addShortcutButton.addEventListener('click', () => {
                     dialog.classList.add('active');
@@ -239,6 +247,7 @@
                 addButton.addEventListener('click', async () => {
                     const name = shortcutNameInput.value;
                     const url = shortcutUrlInput.value;
+                    const position = positionSelect.value; // 選択された位置を取得
                     const faviconUrl = await getFavicon(url);
 
                     const newShortcut = document.createElement('div');
@@ -256,7 +265,18 @@
                     newShortcut.style.cursor = 'pointer';
 
                     const shortcut3DObject = new THREE.CSS3DObject(newShortcut);
-                    shortcut3DObject.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
+
+                    // 選択された位置に基づいてショートカットの位置を設定
+                    if (position === 'desk') {
+                        shortcut3DObject.position.set(1, 1, 1);
+                    } else if (position === 'bed') {
+                        shortcut3DObject.position.set(2, 2, 2);
+                    } else if (position === 'floor') {
+                        shortcut3DObject.position.set(3, 3, 3);
+                    }
+                    // shortcut3DObject.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
+
+
                     shortcut3DObject.scale.set(0.2, 0.2, 0.2);
                     cssScene.add(shortcut3DObject);
 
