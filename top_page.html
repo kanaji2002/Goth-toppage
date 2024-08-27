@@ -603,7 +603,7 @@ body { margin: 0; font-family: Arial, sans-serif; }
                     const url = newShortcut.getAttribute('data-url');  // URL を取得
                     const name = newShortcut.getAttribute('data-name');  // Name を取得（必要に応じて変更）
                     if (window.linkHandler && window.linkHandler.handleLinkClick) {
-                        window.linkHandler.handleLinkClick_url(url,name);  // Pythonのスロットを呼び出す
+                        window.linkHandler.handleLinkClick(url,name);  // Pythonのスロットを呼び出す
 
  
                     } else {
