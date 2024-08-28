@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- three.htmlを普通の明るさにした．ショートカットボタンはあり -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -178,7 +179,7 @@
         box.position.set(5 , 18, 5);
         scene.add(box);
 
-        const directionalLight = new THREE.DirectionalLight(0xff1493,1.7);
+        const directionalLight = new THREE.DirectionalLight(0xfffafa,1.7);
         directionalLight.position.set(5, 18, 5);
         scene.add(directionalLight);
 
@@ -329,22 +330,6 @@
             });
         });
     </script>
-
-<script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
-<script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-        new QWebChannel(qt.webChannelTransport, function(channel) {
-            window.linkHandler = channel.objects.linkHandler;
-
-            const addShortcutButton = document.getElementById('button1');
-            addShortcutButton.addEventListener('click', () => {
-                window.linkHandler.handleLinkClick('http://example.com', 'Example');
-            });
-        });
-    });
-</script>
-
-
 </div>
 </body>
 </html>
