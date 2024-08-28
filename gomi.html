@@ -9,10 +9,7 @@
 
 body { margin: 0; font-family: Arial, sans-serif; }
 
-        /* 初期状態でリストを非表示にする */
-        #myList {
-                    display: none;
-                }
+
         #dialog {
             display: none;
             position: fixed;
@@ -46,15 +43,6 @@ body { margin: 0; font-family: Arial, sans-serif; }
         body {
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-        }
-        .toggle-button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
         }
         #container {
             position: absolute;
@@ -245,14 +233,57 @@ body { margin: 0; font-family: Arial, sans-serif; }
         </select>
         <button class="button_css" id="search_button" type="button">検索</button>
     </div>
+
     <div id="webgl"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS3DRenderer.js"></script>
 
+<!-- 検索エンジンの表示-->
     <script>
-        // シーン、カメラ、レンダラーを作成
+                document.getElementById('searchBox').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const searchEngine = document.getElementById('engineSelect').value;
+                    const query = this.value;
+                    window.open(searchEngine + query, '_self');
+                }
+            });
+
+
+            document.getElementById('search_button').addEventListener('click', function(e) {
+                    const query = document.getElementById('searchBox').value;
+                    const searchEngine = document.getElementById('engineSelect').value;
+                    window.open(searchEngine + query, '_self');
+                
+            });
+    </script>
+
+     <!-- qtwebchannel のscript-->
+     <!-- <script src="qrc:///qtwebchannel/qwebchannel.js"></script> -->
+     
+
+     <!-- 全てのリンクに対して，監視-->
+      <!-- <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            new QWebChannel(qt.webChannelTransport, function(channel) {
+                window.linkHandler = channel.objects.linkHandler;
+
+                // すべてのリンクにクリックイベントを設定する
+                document.querySelectorAll('a').forEach(function(link) {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();  // デフォルトのリンク動作をキャンセル
+                        window.linkHandler.handleLinkClick(link.href);
+                    });
+                });
+            });
+        });
+    </script> -->
+
+
+
+    <script>
+        // シーン、カメラ、レンダラーを作成add
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer();
@@ -298,49 +329,63 @@ body { margin: 0; font-family: Arial, sans-serif; }
         }, undefined, function (error) {
             console.error(error);
         });
+
+// 座標のテスト
+        const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+        const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const box = new THREE.Mesh(boxGeometry, boxMaterial);
+        box.position.set(5 , 18, 5);
+        scene.add(box);
       
 
         // 照明を追加
-        const ambientLight = new THREE.AmbientLight(0xffffe0, 0.5); // 弱めのアンビエントライト
-        scene.add(ambientLight);
+        //全体的に明るくする，全方位から均等に照明を当てる．
+        // const ambientLight = new THREE.AmbientLight(0xffffe0, 0.5); // 弱めのアンビエントライト
+        // scene.add(ambientLight);
 
-        const directionalLight = new THREE.DirectionalLight(0xffffe0, 0.5); // 強めのディレクショナルライト
-        directionalLight.position.set(5, 5, 5);
+        //一か所から照らす　太陽光
+        const directionalLight = new THREE.DirectionalLight(0xffffe0, 0.4); // 強めのディレクショナルライト
+        directionalLight.position.set(5, 18, 5);
         scene.add(directionalLight);
+
+        const hemisphereLight = new THREE.HemisphereLight(0xffffe0, 0x000000, 0.5)
+
+                       // 新しいライトを追加
+        const newLight = new THREE.PointLight(0xffffff, 0.8); // 明るさや色を適宜調整してください
+        newLight.position.set(directionalLight.position.x -2, directionalLight.position.z-3, directionalLight.position.y-20);
+        scene.add(newLight);
+        
+        // const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+        // const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        // const box = new THREE.Mesh(boxGeometry, boxMaterial);
+        // box.position.set(directionalLight.position.x +2 , directionalLight.position.z, directionalLight.position.y -30);
+        // scene.add(box);
+
+        // 矩形光源を作成
+        // new THREE.RectAreaLight(色, 光の強さ, 幅, 高さ)
+        // const light = new THREE.RectAreaLight(0xFFFFe0, 5.0, 2, 20);
+        // scene.add(light);
+
 
         const pointLight = new THREE.PointLight(0xffffe0, 1, 100);
         pointLight.position.set(-5, -5, 5);
         scene.add(pointLight);
+
+        // div要素を作成
+        const div = document.createElement('div');
+        div.innerHTML = "Hello World"; // 必要に応じて内容を設定
+
+
+
         const cssObject = new THREE.CSS3DObject(div);
         cssObject.position.set(0, 1, -1        ); // 3D空間内の位置を設定
         scene.add(cssObject);
 
 
-
-
-
-
-
-
-
         
         renderer.setPixelRatio(window.devicePixelRatio);
 
-        document.getElementById('searchBox').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const searchEngine = document.getElementById('engineSelect').value;
-                const query = this.value;
-                window.open(searchEngine + query, '_self');
-            }
-        });
 
-
-        document.getElementById('search_button').addEventListener('click', function(e) {
-                const query = document.getElementById('searchBox').value;
-                const searchEngine = document.getElementById('engineSelect').value;
-                window.open(searchEngine + query, '_self');
-            
-        });
 
         // マウスイベントリスナーを追加
         let isDragging = false;
@@ -408,191 +453,209 @@ body { margin: 0; font-family: Arial, sans-serif; }
             <input type="text" id="shortcutName" style="width: 100%; margin-bottom: 10px;">
             <label for="shortcutUrl">URL:</label>
             <input type="url" id="shortcutUrl" style="width: 100%;">
-            <label for="position">位置:</label>
-            <button id="toggleButton">リストを表示/非表示</button>
-            <ul id="myList">
-                <li>アイテム 1</li>
-                <li>アイテム 2</li>
-                <li>アイテム 3</li>
-            </ul>
         </div>
         <div class="dialog-footer">
             <button id="cancelButton">キャンセル</button>
             <button id="addButton" disabled>完了</button>
         </div>
     </div>
+
+
           
+
+
+    <div id="message" style="display:none; color:blue;">ボタンがクリックされました！</div>
+
     
+    <script>
+        // シーン、カメラ、レンダラーの作成
+        // const scene = new THREE.Scene();
+        // const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        // const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
+        // ライトの追加
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(1, 1, 1).normalize();
+        scene.add(light);
 
-<div id="message" style="display:none; color:blue;">ボタンがクリックされました！</div>
+        // 立方体の作成
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
+        // カメラの位置
+        camera.position.z = 5;
 
+        // アニメーションループ
+        function animate() {
+            requestAnimationFrame(animate);
 
-    // シーン、カメラ、レンダラーの作成
-    // const scene = new THREE.Scene();
-    // const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    // const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+            // 立方体の回転
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
 
-    // ライトの追加
-    // const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(1, 1, 1).normalize();
-    scene.add(light);
+            // ボタンの位置を更新
+            updateButtonPosition(cube);
 
-    // 立方体の作成
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+            renderer.render(scene, camera);
+            
+        }
 
-    // カメラの位置
-    camera.position.z = 5;
-
-    // アニメーションループ
-    function animate() {
-        requestAnimationFrame(animate);
-
-        // 立方体の回転
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
-
-        // ボタンの位置を更新
-        updateButtonPosition(cube);
-
-        renderer.render(scene, camera);
+        animate();
+            // メッセージ表示要素を取得
         
-    }
+        // ボタンの位置を更新する関数
+        function updateButtonPosition(object) {
+            const vector = new THREE.Vector3(0.5, 0.5, 0.5);  // 立方体の端の座標
+            vector.applyMatrix4(object.matrixWorld);  // 立方体のワールド座標に変換
+            const message = document.getElementById('message');
+            // 3D座標を2Dスクリーン座標に変換
+            // x -> [-1, 1] を [0, window.innerWidth] に変換
+            // y -> [-1, 1] を [window.innerHeight, 0] に変換
+            vector.project(camera);
 
-    animate();
-        // メッセージ表示要素を取得
-       
-    // ボタンの位置を更新する関数
-    function updateButtonPosition(object) {
-        const vector = new THREE.Vector3(0.5, 0.5, 0.5);  // 立方体の端の座標
-        vector.applyMatrix4(object.matrixWorld);  // 立方体のワールド座標に変換
-        const message = document.getElementById('message');
-        // 3D座標を2Dスクリーン座標に変換
-        // x -> [-1, 1] を [0, window.innerWidth] に変換
-        // y -> [-1, 1] を [window.innerHeight, 0] に変換
-        vector.project(camera);
+            // x -> [0, window.innerWidth]
+            // y -> [0, window.innerHeight]
+            //ここで，yはウィンドウのうえはしから下橋までの　ピクセル方向なので，逆方向に変換
+            //つまり，-1~0の範囲×window.innerHeightに変換するために，yの値を反転させている
+            const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+            const y = -(vector.y * 0.5 - 0.5) * window.innerHeight;
 
-        // x -> [0, window.innerWidth]
-        // y -> [0, window.innerHeight]
-        //ここで，yはウィンドウのうえはしから下橋までの　ピクセル方向なので，逆方向に変換
-        //つまり，-1~0の範囲×window.innerHeightに変換するために，yの値を反転させている
-        const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
-        const y = -(vector.y * 0.5 - 0.5) * window.innerHeight;
-
-        const button1 = document.getElementById('button1');
-        button1.style.left = `${x}px`;
-        button1.style.top = `${y}px`;
-        button1.style.display = 'block';  // ボタンを表示
+            const button1 = document.getElementById('button1');
+            button1.style.left = `${x}px`;
+            button1.style.top = `${y}px`;
+            button1.style.display = 'block';  // ボタンを表示
 
 
 
 
-    }
-                    // クリックイベントをリッスン
-    button1.addEventListener('click', function() {
-    // メッセージを表示
-    console.log("clicked");
-    // message.style.display = 'block';
-});
+        }
+                        // クリックイベントをリッスン
+        button1.addEventListener('click', function() {
+        // メッセージを表示
+        console.log("clicked");
+        // message.style.display = 'block';
+    });
 
 
 
 
+    </script>
+
+<script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        new QWebChannel(qt.webChannelTransport, function(channel) {
+            window.linkHandler = channel.objects.linkHandler;
+
+            const addShortcutButton = document.getElementById('button1');
+            const dialog = document.getElementById('dialog');
+            const cancelButton = document.getElementById('cancelButton');
+            const addButton = document.getElementById('addButton');
+            const shortcutNameInput = document.getElementById('shortcutName');
+            const shortcutUrlInput = document.getElementById('shortcutUrl');
+
+            // ショートカット追加ボタンをクリックした時にダイアログを表示
+            addShortcutButton.addEventListener('click', () => {
+                dialog.classList.add('active');
+            });
+
+            // キャンセルボタンでダイアログを閉じる
+            cancelButton.addEventListener('click', () => {
+                dialog.classList.remove('active');
+            });
+
+            // 入力フィールドに値があるかどうかをチェックして、完了ボタンを有効化
+            shortcutNameInput.addEventListener('input', checkFormValidity);
+            shortcutUrlInput.addEventListener('input', checkFormValidity);
+
+            function checkFormValidity() {
+                if (shortcutNameInput.value && shortcutUrlInput.value) {
+                    addButton.disabled = false;
+                } else {
+                    addButton.disabled = true;
+                }
+            }
+
+            // 完了ボタンをクリックしてショートカットを作成
+            addButton.addEventListener('click', async () => {
+                const name = shortcutNameInput.value;
+                const url = shortcutUrlInput.value;
+
+                // ファビコンを取得する
+                const faviconUrl = await getFavicon(url);
+
+                // 新しいショートカットを作成して、ページに追加
+                const newShortcut = document.createElement('div');
+                newShortcut.className = 'button-overlay';
+                newShortcut.innerHTML = `
+                    <div class="tile-icon" style="background-image: url('${faviconUrl}');"></div>
+                    <div class="tile-title">${name}</div>
+                `;
+                newShortcut.setAttribute('data-url', url); // URL を data 属性として追加
+                newShortcut.setAttribute('data-name', name); // URL を data 属性として追加
+
+                // ショートカットのクリックイベント
+                newShortcut.addEventListener('click', (event) => {
+                    event.preventDefault();  // デフォルトのリンク動作をキャンセル
+                    const url = newShortcut.getAttribute('data-url');  // URL を取得
+                    const name = newShortcut.getAttribute('data-name');  // Name を取得（必要に応じて変更）
+                    if (window.linkHandler && window.linkHandler.handleLinkClick) {
+                        window.linkHandler.handleLinkClick(url,name);  // Pythonのスロットを呼び出す
+
+ 
+                    } else {
+                        console.error("linkHandler or handleLinkClick is not defined.");
+                    }
+                });
+
+                // ショートカットをページに追加
+                document.body.appendChild(newShortcut);
+
+                // 最後の button-overlay 要素を探し、その下に10px間隔で配置
+                const existingShortcuts = document.querySelectorAll('.button-overlay');
+                if (existingShortcuts.length > 0) {
+                    const lastShortcut = existingShortcuts[existingShortcuts.length - 1];
+                    const lastShortcutRect = lastShortcut.getBoundingClientRect();
+                    newShortcut.style.position = 'absolute';
+                    newShortcut.style.left = `${lastShortcutRect.right + 10}px`;
+                }
+
+                // ダイアログを閉じて、入力フィールドをクリア
+                dialog.classList.remove('active');
+                shortcutNameInput.value = '';
+                shortcutUrlInput.value = '';
+                addButton.disabled = true;
+            });
+
+            async function getFavicon(siteUrl) {
+                try {
+                    const url = new URL(siteUrl);
+                    const faviconUrl = `https://www.google.com/s2/favicons?domain=${url.hostname}`;
+                    return faviconUrl; // 直接ファビコンURLを返す
+                } catch (error) {
+                    return 'default-icon.png'; // エラーが発生した場合のデフォルトアイコン
+                }
+            }
+        });
+    });
 </script>
 
-
-<!-- ショートカットのスクリプト -->
 <script>
-    const addShortcutButton = document.getElementById('button1');
-    const dialog = document.getElementById('dialog');
-    const cancelButton = document.getElementById('cancelButton');
-    const addButton = document.getElementById('addButton');
-    const shortcutNameInput = document.getElementById('shortcutName');
-    const shortcutUrlInput = document.getElementById('shortcutUrl');
-
-    // ショートカット追加ボタンをクリックした時にダイアログを表示
-    addShortcutButton.addEventListener('click', () => {
-        dialog.classList.add('active');
-    });
-
-    // キャンセルボタンでダイアログを閉じる
-    cancelButton.addEventListener('click', () => {
-        dialog.classList.remove('active');
-    });
-
-    // 入力フィールドに値があるかどうかをチェックして、完了ボタンを有効化
-    shortcutNameInput.addEventListener('input', checkFormValidity);
-    shortcutUrlInput.addEventListener('input', checkFormValidity);
-
-    function checkFormValidity() {
-        if (shortcutNameInput.value && shortcutUrlInput.value) {
-            addButton.disabled = false;
-        } else {
-            addButton.disabled = true;
-        }
+    function addPinnedItem(title, url) {
+        const container = document.querySelector('.pin-container');
+        const item = document.createElement('div');
+        item.className = 'pin-item';
+        item.innerHTML = `<a href="${url}" target="_blank">${title}</a>`;
+        container.prepend(item);  // 上から追加
     }
 
-    // 完了ボタンをクリックしてショートカットを作成
-    addButton.addEventListener('click', async () => {
-        const name = shortcutNameInput.value;
-        const url = shortcutUrlInput.value;
-
-        // ファビコンを取得する
-        const faviconUrl = await getFavicon(url);
-
-        // 新しいショートカットを作成して、ページに追加
-        const newShortcut = document.createElement('div');
-        newShortcut.className = 'button-overlay';
-        newShortcut.innerHTML = `
-            <div class="tile-icon" style="background-image: url('${faviconUrl}');"></div>
-            <div class="tile-title">${name}</div>
-            <button id="toggleButton">リストを表示/非表示</button>
-            <ul id="myList">
-                <li>アイテム 1</li>
-                <li>アイテム 2</li>
-                <li>アイテム 3</li>
-            </ul>
-        `;
-        newShortcut.addEventListener('click', () => {
-            window.open(url, '_blank');
-        });
-
-            // 最後の button-overlay 要素を探し、その下に10px間隔で配置
-        const existingShortcuts = document.querySelectorAll('.button-overlay');
-        if (existingShortcuts.length > 0) {
-            const lastShortcut = existingShortcuts[existingShortcuts.length - 1];
-            const lastShortcutRect = lastShortcut.getBoundingClientRect();
-            newShortcut.style.position = 'absolute';
-            newShortcut.style.left = `${lastShortcutRect.right + 10}px`;
-            // newShortcut.style.bottom = `${lastShortcutRect.bottom}px`;
-        }
-
-        document.body.appendChild(newShortcut);
-
-        // ダイアログを閉じて、入力フィールドをクリア
-        dialog.classList.remove('active');
-        shortcutNameInput.value = '';
-        shortcutUrlInput.value = '';
-        addButton.disabled = true;
-    });
-
-    async function getFavicon(siteUrl) {
-try {
-    const url = new URL(siteUrl);
-    const faviconUrl = `https://www.google.com/s2/favicons?domain=${url.hostname}`;
-    return faviconUrl; // 直接ファビコンURLを返す
-} catch (error) {
-    return 'default-icon.png'; // エラーが発生した場合のデフォルトアイコン
-}
-}
+    function loadPinnedItemsFromPython(pinnedItems) {
+        pinnedItems.forEach(item => addPinnedItem(item.title, item.url));
+    }
 </script>
 
 
