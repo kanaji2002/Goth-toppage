@@ -244,9 +244,9 @@
             <label for="shortcutUrl">URL:</label>
             <input type="url" id="shortcutUrl" style="width: 100%;">
              <!-- トグルリストの追加 -->
-            <select class = "toggle-button" id="positionSelect" >
-                <option value="desk">机</option>
+             <select class = "toggle-button" id="positionSelect" >
                 <option value="bed">ベッド</option>
+                <option value="makura">枕元</option>
                 <option value="floor">床</option>
             </select>
         </div>
@@ -309,13 +309,13 @@
                     const shortcut3DObject = new THREE.CSS3DObject(newShortcut);
 
                     // 選択された位置に基づいてショートカットの位置を設定
-                    if (position === 'desk') {
+                    if (position === 'bed') {
                         console.log('deskに設置しました．');
-                        shortcut3DObject.position.set(-4, 0, -4);
-                    } else if (position === 'bed') {
-                        shortcut3DObject.position.set(0, -2, 3);
+                        shortcut3DObject.position.set(-4, 10, -4);
+                    } else if (position === 'makura') {
+                        shortcut3DObject.position.set(4, -2, 3);
                     } else if (position === 'floor') {
-                        shortcut3DObject.position.set(2, -2, 5);
+                        shortcut3DObject.position.set(0, -2, 5);
                     }
                     // shortcut3DObject.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
 
