@@ -330,19 +330,7 @@
         });
     </script>
 
-<script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
-<script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-        new QWebChannel(qt.webChannelTransport, function(channel) {
-            window.linkHandler = channel.objects.linkHandler;
 
-            const addShortcutButton = document.getElementById('button1');
-            addShortcutButton.addEventListener('click', () => {
-                window.linkHandler.handleLinkClick('http://example.com', 'Example');
-            });
-        });
-    });
-</script>
 
 
 </div>
