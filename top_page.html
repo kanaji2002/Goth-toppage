@@ -93,7 +93,7 @@
         border-radius: 5px;
         cursor: pointer;
         display: inline-block;
-        width: 40px;
+        width: 30px;
         /* height: 30px; Modify the height here
          */
 
@@ -200,7 +200,7 @@
         // box.position.set(5 , 18, 5);
         // scene.add(box);
 
-        const directionalLight = new THREE.DirectionalLight(0xfffafa,1.7);
+        const directionalLight = new THREE.DirectionalLight(0xf5f5dc,1.7);
         directionalLight.position.set(5, 18, 5);
         scene.add(directionalLight);
 
@@ -313,9 +313,9 @@
                         console.log('deskに設置しました．');
                         shortcut3DObject.position.set(-4, 0, -4);
                     } else if (position === 'bed') {
-                        shortcut3DObject.position.set(6, 6, 6);
+                        shortcut3DObject.position.set(0, -2, 3);
                     } else if (position === 'floor') {
-                        shortcut3DObject.position.set(30, 3, 3);
+                        shortcut3DObject.position.set(2, -2, 5);
                     }
                     // shortcut3DObject.position.set(Math.random() * 4 - 2, Math.random() * 4 - 2, Math.random() * 4 - 2);
 

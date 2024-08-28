@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <!-- three.htmlを普通の明るさをピンクにした．ショートカットボタンはあり -->
+    <!-- three.htmlを普通の明るさにした．ショートカットボタンはあり -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -55,41 +55,57 @@
             z-index: 1;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: stretch; /* 子要素を同じ高さにする */
+            gap: 3px;
         }
+
+
         #searchBox, #engineSelect {
-            padding: 16px;
+            padding: 10px;
             margin: 6px;
             border-radius: 5px;
             border: 1px solid #ccc;
             font-size: 20px;
         }
-        .button_css {
+
+            #search_button {
+                padding: 10px;
+                margin: 4px;
+            width: 70px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 20px;
             display: inline-block;
-            padding: 20px 20px;
+
             background-color: #007bff;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
-            margin-top: 0px;
         }
-        .button-overlay-defo {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            width: 170px;
-            background-color: rgba(88, 207, 243, 0.897);
-            position: absolute;
-            top: 70%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1;
-            display: inline-block;
-            justify-content: center;
-            align-items: center;
-        }
+
+
+
+
+    .button-overlay-defo {
+        padding: 10px;
+        margin: 4px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+        display: inline-block;
+        width: 40px;
+        /* height: 30px; Modify the height here
+         */
+
+        background-color: #ff8400;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 20px;
+        /* background-color: rgba(88, 207, 243, 0.897);
+        justify-content: center;
+        align-items: center; */
+    }
         .tile-icon {
             display: inline-block;
             width: 24px;
@@ -104,6 +120,8 @@
             display: inline-block;
             vertical-align: middle;
         }
+
+        
     </style>
 </head>
 
@@ -120,6 +138,9 @@
             <option value="https://scholar.google.co.jp/scholar?hl=ja&as_sdt=0%2C5&q=">Google Scholar</option>
         </select>
         <button class="button_css" id="search_button" type="button">検索</button>
+        <!-- <div id="button1" class="button-overlay-defo">
+            <div class="tile-title">Pin</div>
+        </div> -->
     </div>
 
     <div id="webgl"></div>
@@ -173,11 +194,11 @@
         });
 
 
-        const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
-        const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const box = new THREE.Mesh(boxGeometry, boxMaterial);
-        box.position.set(5 , 18, 5);
-        scene.add(box);
+        // const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+        // const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        // const box = new THREE.Mesh(boxGeometry, boxMaterial);
+        // box.position.set(5 , 18, 5);
+        // scene.add(box);
 
         const directionalLight = new THREE.DirectionalLight(0xff1493,1.7);
         directionalLight.position.set(5, 18, 5);
@@ -213,9 +234,7 @@
 
    
 
-    <div id="button1" class="button-overlay-defo">
-        <div class="tile-title">ショートカットを追加</div>
-    </div>
+   
 
     <div id="dialog">
         <div class="dialog-header">ショートカットを追加</div>
