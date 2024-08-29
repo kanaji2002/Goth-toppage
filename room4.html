@@ -143,6 +143,7 @@
         </div> -->
     </div>
 
+    
     <div id="webgl"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -195,12 +196,12 @@
         });
 
 
-                // 青いボックスを作成
-                const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
-        const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-        const blueBox = new THREE.Mesh(boxGeometry, boxMaterial);
-        blueBox.position.set(2, 1, 0);  // ボックスの位置を調整
-        scene.add(blueBox);
+        //         // 青いボックスを作成
+        //         const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+        // const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+        // const blueBox = new THREE.Mesh(boxGeometry, boxMaterial);
+        // blueBox.position.set(2, 1, 0);  // ボックスの位置を調整
+        // scene.add(blueBox);
 
         // ボックスにクリックイベントを追加
         const raycaster = new THREE.Raycaster();
